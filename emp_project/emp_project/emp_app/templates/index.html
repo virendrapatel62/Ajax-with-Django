@@ -77,6 +77,28 @@
     function onEmployeeFormSubmission(event) {
         //1. read data of form 
         event.preventDefault()
+
+        const employeeFormValueArray = $(this).serializeArray()
+        const body = {}
+        employeeFormValueArray.forEach(element => {
+            body[element.name] = element.value
+        })
+
+        console.log({ body })
+
+        $.ajax({
+            method: "POST",
+            url: "/employee",
+            data: body
+        })
+            .done(function (response) {
+                console.log(response)
+                event.target.reset()
+                alert("Employee Saved")
+            })
+            .fail(function (response) {
+                console.log(response)
+            })
         // 2. send data to server using ajax 
     }
 
