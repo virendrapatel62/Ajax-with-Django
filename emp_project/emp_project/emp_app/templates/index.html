@@ -1,11 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
-    <h1>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo neque eligendi odio saepe amet facilis! Sapiente sequi iste ipsa mollitia, nam optio dolores animi ut ratione recusandae exercitationem. Similique, iusto?</h1>
+
+    <div>
+
+        <form action="#" id='officeForm'>
+            <h1>Office Form</h1>
+            {% csrf_token %}
+            {{officeForm.as_p}}
+            <input type="submit" value="Save Office">
+        </form>
+
+        <hr>
+
+        <form action="#" id='employeeForm'>
+            <h1>Employee Form</h1>
+            {% csrf_token %}
+            {{employeeForm.as_p}}
+            <input type="submit" value="Save Employee">
+
+        </form>
+
+
+    </div>
 </body>
+
 </html>
+
+<script>
+    $(document).ready(function () {
+
+    })
+
+    function onOfficeFormSubmit(event) {
+        //1. read data of form 
+        event.preventDefault()
+        const valuesInArray = $(this).serializeArray()
+        // [{name : "email" , value : "em@gmaillcom"} , {name : "email" , value : "em@gmaillcom"} , ]
+
+        const body = {}
+        // valuesInArray.forEach(e => {
+        //     body[e.name] = e.value
+        // })
+        valuesInArray.reduce((body, e) => {
+            body[e.name] = e.value
+            return body
+        }, body)
+
+        $.ajax({
+            method: "POST",
+            url: "/office",
+            data: body
+        })
+            .done(function (response) {
+                console.log(response)
+                event.target.reset()
+                alert("Office Saved")
+            })
+            .fail(function (response) {
+                console.log(response)
+            })
+
+
+        // 2. send data to server using ajax 
+    }
+    function onEmployeeFormSubmission(event) {
+        //1. read data of form 
+        event.preventDefault()
+        // 2. send data to server using ajax 
+    }
+
+    $("#officeForm").submit(onOfficeFormSubmit)
+    $("#employeeForm").submit(onEmployeeFormSubmission)
+</script>

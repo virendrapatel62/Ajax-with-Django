@@ -4,5 +4,6 @@ from emp_project.emp_app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('' , home)
+    path('' , home , name='home'), 
+    path('office' , officeCrud), 
 ]

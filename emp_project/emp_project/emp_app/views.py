@@ -1,7 +1,27 @@
-from django.shortcuts import render
+from django.shortcuts import render 
+from django.http import JsonResponse
+from .models import EmployeeForm , OfficeForm
+
+from django.forms.models import model_to_dict
 
 # Create your views here.
   
 
 def home(request):
-    return render(request , 'index.html')
+    officeForm = OfficeForm()
+    employeeForm = EmployeeForm();
+    context = {
+        "officeForm" : officeForm , 
+        "employeeForm" : employeeForm
+    }
+    return render(request , 'index.html',  context=context)
+
+
+
+def officeCrud(request):
+    if request.method == "POST": 
+        print(request.POST)
+        officeForm = OfficeForm(request.POST)
+        office = officeForm.save()
+        
+        return JsonResponse(model_to_dict(office) , safe=False)
