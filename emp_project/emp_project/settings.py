@@ -27,7 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'emp_project.emp_app'
+    'emp_project.emp_app', 
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'emp_project.wsgi.application'
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

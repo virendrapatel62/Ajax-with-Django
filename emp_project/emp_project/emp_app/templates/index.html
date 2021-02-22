@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
         integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
         crossorigin="anonymous"></script>
@@ -12,24 +17,33 @@
 
 <body>
 
-    <div>
+    <div class="container mt-4">
 
-        <form action="#" id='officeForm'>
-            <h1>Office Form</h1>
-            {% csrf_token %}
-            {{officeForm.as_p}}
-            <input type="submit" value="Save Office">
-        </form>
+        <div class="">
+            <div class="col-lg-5 border rounded p-4 m-4">
+                <form action="#" id='officeForm'>
+                    <h1>Office Form</h1>
+                    {% csrf_token %}
+                    {{officeForm|crispy }}
+                    <input class="btn btn-success" type="submit" value="Save Office">
+                </form>
+            </div>
+        </div>
 
         <hr>
 
-        <form action="#" id='employeeForm'>
-            <h1>Employee Form</h1>
-            {% csrf_token %}
-            {{employeeForm.as_p}}
-            <input type="submit" value="Save Employee">
+        <div>
+            <div class="col-lg-5 col-lg-5 border rounded p-4 m-4">
+                <form action="#" id='employeeForm'>
+                    <h1>Employee Form</h1>
+                    {% csrf_token %}
+                    {{employeeForm|crispy }}
+                    <input class="btn btn-info" type="submit" value="Save Employee">
 
-        </form>
+                </form>
+            </div>
+        </div>
+
 
 
     </div>
