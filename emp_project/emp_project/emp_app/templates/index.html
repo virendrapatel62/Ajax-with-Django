@@ -29,7 +29,7 @@
                 </form>
             </div>
             <div class="col-7">
-                <table class="table">
+                <table class="table" id='officeTable'>
                     <thead>
                         <tr>
                             <th>Sno</th>
@@ -81,6 +81,7 @@
                 function (response) {
                     const tempOffices = JSON.parse(response)
                     officeList = tempOffices;
+                    officeList = officeList.map(e => e.fields)
                     renderOfficeTable()
                 }
             )
@@ -88,11 +89,19 @@
 
     function renderOfficeTable() {
         console.log("in render table", officeList)
-        const tableBody = document.getElementById("officeTableId")
+        let tableBody = document.getElementById("officeTableId")
+        tableBody.remove()
+
+        let newBody = document.createElement("tbody");
+        newBody.id = "officeTableId"
+        document.getElementById("officeTable").append(newBody)
+
+
+
         officeList.forEach(
             function (office, index) {
-                office = office.fields
-                const row = tableBody.insertRow()
+
+                const row = newBody.insertRow()
                 const count = document.createElement("TD")
                 count.innerHTML = index + 1
                 const name = document.createElement("TD")
@@ -129,7 +138,12 @@
             .done(function (response) {
                 console.log(response)
                 event.target.reset()
-                alert("Office Saved")
+
+                officeList.push(response)
+                console.log(officeList)
+                renderOfficeTable()
+
+                // alert("Office Saved")
             })
             .fail(function (response) {
                 console.log(response)
