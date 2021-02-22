@@ -1,8 +1,9 @@
 from django.shortcuts import render 
 from django.http import JsonResponse
-from .models import EmployeeForm , OfficeForm
+from .models import EmployeeForm , OfficeForm , Office
 
 from django.forms.models import model_to_dict
+from django.core import serializers
 
 # Create your views here.
   
@@ -34,3 +35,9 @@ def employeeCrud(request):
         employee = employeeForm.save()
         
         return JsonResponse(model_to_dict(employee))
+    
+
+def getAllOffices(request):
+    offices = Office.objects.all()
+    data = serializers.serialize("json" , offices)
+    return JsonResponse( data , safe=False)

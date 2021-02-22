@@ -19,14 +19,28 @@
 
     <div class="container mt-4">
 
-        <div class="">
-            <div class="col-lg-5 border rounded p-4 m-4">
+        <div class="row">
+            <div class="col-5 border rounded">
                 <form action="#" id='officeForm'>
                     <h1>Office Form</h1>
                     {% csrf_token %}
                     {{officeForm|crispy }}
                     <input class="btn btn-success" type="submit" value="Save Office">
                 </form>
+            </div>
+            <div class="col-7">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th>Name</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody id='officeTableId'>
+
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -52,9 +66,45 @@
 </html>
 
 <script>
+    var officeList = []
     $(document).ready(function () {
-
+        getAllOffices()
     })
+
+    function getAllOffices() {
+        console.log("getting data from server....")
+        $.ajax({
+            method: "GET",
+            url: "/offices"
+        })
+            .done(
+                function (response) {
+                    const tempOffices = JSON.parse(response)
+                    officeList = tempOffices;
+                    renderOfficeTable()
+                }
+            )
+    }
+
+    function renderOfficeTable() {
+        console.log("in render table", officeList)
+        const tableBody = document.getElementById("officeTableId")
+        officeList.forEach(
+            function (office, index) {
+                office = office.fields
+                const row = tableBody.insertRow()
+                const count = document.createElement("TD")
+                count.innerHTML = index + 1
+                const name = document.createElement("TD")
+                name.innerHTML = office.name
+                const location = document.createElement("TD")
+                location.innerHTML = office.location
+                row.appendChild(count)
+                row.appendChild(name)
+                row.appendChild(location)
+            }
+        )
+    }
 
     function onOfficeFormSubmit(event) {
         //1. read data of form 
