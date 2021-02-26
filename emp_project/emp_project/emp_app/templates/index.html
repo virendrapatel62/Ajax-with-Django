@@ -46,8 +46,8 @@
 
         <hr>
 
-        <div>
-            <div class="col-lg-5 col-lg-5 border rounded p-4 m-4">
+        <div class="row">
+            <div class="col-lg-5 border rounded p-4">
                 <form action="#" id='employeeForm'>
                     <h1>Employee Form</h1>
                     {% csrf_token %}
@@ -55,6 +55,21 @@
                     <input class="btn btn-info" type="submit" value="Save Employee">
 
                 </form>
+            </div>
+            <div class="col-7">
+                <table class="table" id='employeeTable'>
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                        </tr>
+                    </thead>
+                    <tbody id='employeeTableBodyId'>
+
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -67,8 +82,10 @@
 
 <script>
     var officeList = []
+    var employeeList = []
     $(document).ready(function () {
         getAllOffices()
+        getAllEmployees()
     })
 
     function getAllOffices() {
@@ -85,6 +102,53 @@
                     renderOfficeTable()
                 }
             )
+    }
+    function getAllEmployees() {
+        console.log("getting data from server....")
+        $.ajax({
+            method: "GET",
+            url: "/employees"
+        })
+            .done(
+                function (response) {
+                    employeeList = JSON.parse(response)
+                    employeeList = employeeList.map(e => e.fields)
+                    renderEmployeeTable()
+                }
+            )
+    }
+
+
+    function renderEmployeeTable() {
+        console.log("Rendring Table Employee", employeeList)
+
+        let tableBody = document.getElementById("employeeTableBodyId")
+        tableBody.remove()
+
+        let newBody = document.createElement("tbody");
+        newBody.id = "employeeTableBodyId"
+        document.getElementById("employeeTable").append(newBody)
+
+
+
+        employeeList.forEach(
+            function (employee, index) {
+
+                const row = newBody.insertRow()
+                const count = document.createElement("TD")
+                count.innerHTML = index + 1
+                const name = document.createElement("TD")
+                name.innerHTML = employee.first_name
+                const email = document.createElement("TD")
+                email.innerHTML = employee.email
+                const gender = document.createElement("TD")
+                gender.innerHTML = (employee.gender == "M") ? "Male" : "Female"
+                row.appendChild(count)
+                row.appendChild(name)
+                row.appendChild(email)
+                row.appendChild(gender)
+            }
+        )
     }
 
     function renderOfficeTable() {

@@ -1,6 +1,6 @@
 from django.shortcuts import render 
 from django.http import JsonResponse
-from .models import EmployeeForm , OfficeForm , Office
+from .models import EmployeeForm , OfficeForm , Office , Employee
 
 from django.forms.models import model_to_dict
 from django.core import serializers
@@ -40,4 +40,9 @@ def employeeCrud(request):
 def getAllOffices(request):
     offices = Office.objects.all()
     data = serializers.serialize("json" , offices)
+    return JsonResponse( data , safe=False)
+
+def getAllEmployees(request):
+    employees = Employee.objects.all()
+    data = serializers.serialize("json" , employees)
     return JsonResponse( data , safe=False)
