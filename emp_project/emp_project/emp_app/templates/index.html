@@ -236,7 +236,8 @@
             .done(function (response) {
                 console.log(response)
                 event.target.reset()
-                alert("Employee Saved")
+                employeeList.push(response)
+                renderEmployeeTable()
             })
             .fail(function (response) {
                 console.log(response)

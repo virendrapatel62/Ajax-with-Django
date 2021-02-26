@@ -46,3 +46,10 @@ def getAllEmployees(request):
     employees = Employee.objects.all()
     data = serializers.serialize("json" , employees)
     return JsonResponse( data , safe=False)
+
+
+def showEmployeePage(request):
+    return render(request ,template_name="employee-page.html")
+
+def showOfficePage(request):
+    return render(request ,template_name="office-page.html")
