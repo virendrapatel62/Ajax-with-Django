@@ -49,7 +49,19 @@ def getAllEmployees(request):
 
 
 def showEmployeePage(request):
-    return render(request ,template_name="employee-page.html")
+    
+    employeeForm = EmployeeForm();
+    context = {
+        
+        "employeeForm" : employeeForm
+    }
+    return render(request ,template_name="employee-page.html" , context = context)
 
 def showOfficePage(request):
-    return render(request ,template_name="office-page.html")
+    officeForm = OfficeForm()
+   
+    context = {
+        "officeForm" : officeForm 
+        
+    }
+    return render(request ,template_name="office-page.html" , context=context)
