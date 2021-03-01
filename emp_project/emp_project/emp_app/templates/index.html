@@ -3,6 +3,12 @@
 <html lang="en">
 
 <head>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
@@ -17,12 +23,24 @@
 
 <body>
 
+    <div class="container-fluid h-100">
+        <br>
+        <div class="row h-100">
+            <div class="col-2 h-100 border">
+                <br>
+                <br>
+                <div class="list-group">
+
+                    <a href="/pages/office" target="content" class="list-group-item">Office</a>
+                    <a href="/pages/employee" target="content" class="list-group-item">Employees</a>
+                </div>
+            </div>
+            <div class="col-10 h-100">
+                <iframe name="content" frameborder="0" class="h-100 w-100" src="/pages/office"></iframe>
+            </div>
+        </div>
+    </div>
 
 </body>
 
 </html>
-
-<script>
-
-
-</script>
