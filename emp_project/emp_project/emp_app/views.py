@@ -10,7 +10,7 @@ from django.core import serializers
 
 def home(request):
     officeForm = OfficeForm()
-    employeeForm = EmployeeForm();
+    employeeForm = EmployeeForm()
     context = {
         "officeForm" : officeForm , 
         "employeeForm" : employeeForm
@@ -43,11 +43,6 @@ def employeeCrud(request):
         response['office'] = officeJson
         
         return JsonResponse(response)
-    
-    if request.method == "PUT":
-        print(request.JSON)
-        res = {}
-        return JsonResponse(res)
     
 
 def getAllOffices(request):
