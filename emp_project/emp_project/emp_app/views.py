@@ -26,6 +26,8 @@ def officeCrud(request):
         office = officeForm.save()
         
         return JsonResponse(model_to_dict(office) , safe=False)
+    
+    
 
 
 def employeeCrud(request):
@@ -41,6 +43,11 @@ def employeeCrud(request):
         response['office'] = officeJson
         
         return JsonResponse(response)
+    
+    if request.method == "PUT":
+        print(request.JSON)
+        res = {}
+        return JsonResponse(res)
     
 
 def getAllOffices(request):

@@ -37,6 +37,7 @@
                             <th>Email</th>
                             <th>Gender</th>
                             <th>Office</th>
+                            <th>Active</th>
                         </tr>
                     </thead>
                     <tbody id='employeeTableBodyId'>
@@ -54,6 +55,7 @@
 
 <script>
     var employeeList = []
+    var csrfmiddlewaretoken = "{{csrf_token}}"
     $(document).ready(function () {
         $("#employeeForm").submit(onEmployeeFormSubmission)
 
@@ -103,11 +105,27 @@
                 gender.innerHTML = (employee.gender == "M") ? "Male" : "Female"
                 const office = document.createElement("TD")
                 office.innerHTML = employee.office.name
+
+                const activeCol = document.createElement("TD")
+                const check = document.createElement('input')
+                check.type = 'checkbox'
+                if (employee.active) {
+                    check.checked = "checked"
+                }
+                activeCol.appendChild(check)
+
+                check.onchange = function () {
+                    employee.active = check.checked
+                    console.log(employee)
+                }
+
+
                 row.appendChild(count)
                 row.appendChild(name)
                 row.appendChild(email)
                 row.appendChild(gender)
                 row.appendChild(office)
+                row.appendChild(activeCol)
             }
         )
     }
@@ -141,8 +159,6 @@
             })
         // 2. send data to server using ajax 
     }
-
-
 
 </script>
 
