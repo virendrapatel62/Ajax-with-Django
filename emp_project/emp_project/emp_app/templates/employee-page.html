@@ -36,6 +36,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Gender</th>
+                            <th>Office</th>
                         </tr>
                     </thead>
                     <tbody id='employeeTableBodyId'>
@@ -100,10 +101,13 @@
                 email.innerHTML = employee.email
                 const gender = document.createElement("TD")
                 gender.innerHTML = (employee.gender == "M") ? "Male" : "Female"
+                const office = document.createElement("TD")
+                office.innerHTML = employee.office.name
                 row.appendChild(count)
                 row.appendChild(name)
                 row.appendChild(email)
                 row.appendChild(gender)
+                row.appendChild(office)
             }
         )
     }

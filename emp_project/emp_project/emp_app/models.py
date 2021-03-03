@@ -1,6 +1,6 @@
 from django.db import models
 from django.forms import ModelForm
-
+from django.forms.models import model_to_dict
 
 
 class Office(models.Model):
@@ -9,6 +9,10 @@ class Office(models.Model):
 
     def __str__(self):
         return self.name;
+    
+    def natural_key(self):
+        print("natural keys--office")
+        return model_to_dict(self)
 
 
 class Employee(models.Model):

@@ -33,8 +33,14 @@ def employeeCrud(request):
         print(request.POST)
         employeeForm = EmployeeForm(request.POST)
         employee = employeeForm.save()
+        office = employee.office
+        print(office)
+        officeJson = model_to_dict(office)
         
-        return JsonResponse(model_to_dict(employee))
+        response = model_to_dict(employee)
+        response['office'] = officeJson
+        
+        return JsonResponse(response)
     
 
 def getAllOffices(request):
@@ -44,7 +50,7 @@ def getAllOffices(request):
 
 def getAllEmployees(request):
     employees = Employee.objects.all()
-    data = serializers.serialize("json" , employees)
+    data = serializers.serialize("json" , employees , use_natural_foreign_keys=True)
     return JsonResponse( data , safe=False)
 
 
