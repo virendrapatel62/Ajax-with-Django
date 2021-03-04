@@ -27,28 +27,35 @@ def officeCrud(request):
         
         return JsonResponse(model_to_dict(office) , safe=False)
     
-    
 
+def changeEmployeeToJson(employee):
+    office = employee.office
+    print(office)
+    officeJson = model_to_dict(office)
+        
+    response = model_to_dict(employee)
+    response['office'] = officeJson
+    return response
 
 def employeeCrud(request):
     if request.method == "POST": 
         print(request.POST)
         employeeForm = EmployeeForm(request.POST)
         employee = employeeForm.save()
-        office = employee.office
-        print(office)
-        officeJson = model_to_dict(office)
-        
-        response = model_to_dict(employee)
-        response['office'] = officeJson
-        
+        response = changeEmployeeToJson(employee)
         return JsonResponse(response)
 
     if request.method == "PUT":
-        data = QueryDict(request.body)
-        print(json.load(request.body))
-        res = {}
-        return JsonResponse(res)
+        print(request.body)
+        data = json.loads(request.body)
+        data['office'] = Office(id = data.get('office'))
+        del data['csrfmiddlewaretoken']
+        employee = Employee(**data)
+        print(employee)
+        response = {}
+        employee.save()
+        response = changeEmployeeToJson(employee)
+        return JsonResponse(response)
     
 
 def getAllOffices(request):

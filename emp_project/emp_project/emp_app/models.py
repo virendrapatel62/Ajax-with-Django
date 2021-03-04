@@ -26,6 +26,7 @@ class Employee(models.Model):
     email = models.EmailField()
     gender = models.CharField(max_length=20 , choices = genders ) 
     office = models.ForeignKey(Office , on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.email;

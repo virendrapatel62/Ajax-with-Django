@@ -138,7 +138,7 @@
                         },
                         method: "PUT",
                         url: "/employee",
-                        data: body
+                        data: JSON.stringify(body)
                     })
                         .done(function (response) {
                             console.log(response)
