@@ -1,10 +1,10 @@
 from django.shortcuts import render 
-from django.http import JsonResponse
+from django.http import JsonResponse , QueryDict
 from .models import EmployeeForm , OfficeForm , Office , Employee
 
 from django.forms.models import model_to_dict
 from django.core import serializers
-
+import json
 # Create your views here.
   
 
@@ -43,6 +43,12 @@ def employeeCrud(request):
         response['office'] = officeJson
         
         return JsonResponse(response)
+
+    if request.method == "PUT":
+        data = QueryDict(request.body)
+        print(json.load(request.body))
+        res = {}
+        return JsonResponse(res)
     
 
 def getAllOffices(request):
@@ -58,7 +64,7 @@ def getAllEmployees(request):
 
 def showEmployeePage(request):
     
-    employeeForm = EmployeeForm();
+    employeeForm = EmployeeForm()
     context = {
         
         "employeeForm" : employeeForm

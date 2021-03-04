@@ -72,7 +72,15 @@
             .done(
                 function (response) {
                     employeeList = JSON.parse(response)
-                    employeeList = employeeList.map(e => e.fields)
+                    employeeList = employeeList.map(e => {
+                        const employee = {
+                            ...e.fields,
+                            id: e.pk
+                        }
+
+                        return employee
+
+                    })
                     renderEmployeeTable()
                 }
             )
@@ -117,6 +125,28 @@
                 check.onchange = function () {
                     employee.active = check.checked
                     console.log(employee)
+                    const body = {
+                        ...employee,
+                        office: employee.office.id,
+                        csrfmiddlewaretoken
+                    }
+                    const csrftoken = getCookie('csrftoken');
+                    console.log({ body })
+                    $.ajax({
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        },
+                        method: "PUT",
+                        url: "/employee",
+                        data: body
+                    })
+                        .done(function (response) {
+                            console.log(response)
+
+                        })
+                        .fail(function (response) {
+                            console.log(response)
+                        })
                 }
 
 
@@ -129,6 +159,25 @@
             }
         )
     }
+
+
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
 
 
     function onEmployeeFormSubmission(event) {
